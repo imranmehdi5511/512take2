@@ -1,0 +1,42 @@
+loader.entrypoint = "file:{{ gramine.libos }}"
+libos.entrypoint = "/test-gramine-short"
+loader.log_level = "{{ log_level }}"
+
+loader.env.LD_LIBRARY_PATH = "/lib:/usr/lib/x86_64-linux-gnu/"
+
+fs.mounts = [
+  { path = "/lib", uri = "file:{{ gramine.runtimedir() }}" },
+  { path = "/test-gramine-short", uri = "file:test-gramine-short" },
+  { path = "/usr/lib/x86_64-linux-gnu", uri = "file:/usr/lib/x86_64-linux-gnu" },
+]
+
+sgx.debug = true
+sgx.edmm_enable = {{ 'true' if env.get('EDMM', '0') == '1' else 'false' }}
+
+sgx.trusted_files = [
+  "file:{{ gramine.libos }}",
+  "file:test-gramine-short",
+  "file:logs.txt",
+  "file:{{ gramine.runtimedir() }}/",
+  "file:/usr/lib/x86_64-linux-gnu/libcrypto.so.3",
+  "file:/usr/lib/x86_64-linux-gnu/",
+  "file:/home/imran/gramine/CI-Examples/test-gramine-short/logs.txt",
+  "file:/home/imran/gramine/CI-Examples/test-gramine-short/logs1.txt",
+  ]
+#sgx.allowed_files = [
+#  #"file:/home/imran/gramine/CI-Examples/test-gramine-short/logs.txt",
+#  "file:test-data/file0.txt",
+#  #"file:/home/imran/gramine/CI-Examples/test-gramine-short/logs1.txt",
+#]
+
+
+
+sgx.allowed_files = [
+  "file:test-data/",  # all files under this directory are allowed
+]
+
+  
+fs.entrypoint = "/test-gramine-short"
+loader.argv0_override = "/test-gramine-short"
+loader.insecure__use_cmdline_argv = true
+
