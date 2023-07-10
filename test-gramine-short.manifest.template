@@ -8,6 +8,7 @@ fs.mounts = [
   { path = "/lib", uri = "file:{{ gramine.runtimedir() }}" },
   { path = "/test-gramine-short", uri = "file:test-gramine-short" },
   { path = "/usr/lib/x86_64-linux-gnu", uri = "file:/usr/lib/x86_64-linux-gnu" },
+  { path = "/home/imran/gramine/CI-Examples/test-gramine/test-data", uri = "file:/home/imran/gramine/CI-Examples/test-gramine/test-data" },
 ]
 
 sgx.debug = true
@@ -33,10 +34,10 @@ sgx.trusted_files = [
 
 sgx.allowed_files = [
   "file:test-data/",  # all files under this directory are allowed
+  "file:/home/imran/gramine/CI-Examples/test-gramine/test-data/",
 ]
 
   
 fs.entrypoint = "/test-gramine-short"
 loader.argv0_override = "/test-gramine-short"
 loader.insecure__use_cmdline_argv = true
-
